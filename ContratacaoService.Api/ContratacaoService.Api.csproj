@@ -18,4 +18,9 @@
     <Folder Include="DTOs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ContratacaoService.Adapters\ContratacaoService.Adapters.csproj" />
+    <ProjectReference Include="..\ContratacaoService.Core\ContratacaoService.Core.csproj" />
+  </ItemGroup>
+
 </Project>

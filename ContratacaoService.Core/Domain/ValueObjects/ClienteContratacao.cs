@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace ContratacaoService.Core.Domain.ValueObjects
 {
-    public class ClienteContratacao // Exemplo de Value Object ou Entidade para os dados do contrato
+    public class ClienteContratacao
     {
-        public Guid ClienteId { get; set; } // O ID do cliente original
-        public required string NomeCompleto { get; set; } // Detalhes que vieram da proposta ou de um serviço de cliente
-        public required string Endereco { get; set; }
-        // ... outros dados necessários para o contrato
+        public Guid ClienteId { get; private set; }
+        public string Nome { get; private set; }
+
+        public ClienteContratacao(Guid clienteId, string nome)
+        {
+            // Enforce immutability and data integrity
+            ClienteId = clienteId;
+            Nome = nome;
+        }
     }
 }
