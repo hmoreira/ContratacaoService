@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ContratacaoService.Core.Domain
+namespace ContratacaoService.Core.Domain.Enums
 {
     public enum StatusContratacaoEnum : short
     {

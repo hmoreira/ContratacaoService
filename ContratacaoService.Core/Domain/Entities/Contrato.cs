@@ -1,4 +1,5 @@
-﻿using ContratacaoService.Core.Domain.ValueObjects;
+﻿using ContratacaoService.Core.Domain.Enums;
+using ContratacaoService.Core.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
