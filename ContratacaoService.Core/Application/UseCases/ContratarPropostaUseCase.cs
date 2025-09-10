@@ -21,10 +21,16 @@ namespace ContratacaoService.Core.Application.UseCases
 
         public async Task<ContratoDto> ExecutarAsync(ContratarPropostaDto contratarPropostaDto)
         {
-            var statusProposta = await _propostaService.ConsultarStatusPropostaAsync(contratarPropostaDto.PropostaId);
+            var proposta = await _propostaService.ConsultarPropostaAsync(contratarPropostaDto.PropostaId);
+
+            if (proposta == null)
+                throw new DomainException($"A proposta {contratarPropostaDto.PropostaId.ToString()} não foi encontrada.");
+
+            if (proposta.Status != StatusPropostaEnum.Aprovada)
+                throw new DomainException($"A proposta {proposta.Id.ToString()} não está aprovada e não pode ser contratada.");
 
             var contrato = Contrato.Criar(contratarPropostaDto.PropostaId, contratarPropostaDto.DataContratacao,
-                                          statusProposta);                        
+                                          proposta.Status);                        
 
             await _contratoRepository.AdicionarAsync(contrato);
             

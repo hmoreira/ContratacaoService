@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ContratacaoService.Core.Application.Interfaces;
-using ContratacaoService.Api.DTOs;
+﻿using ContratacaoService.Api.DTOs;
 using ContratacaoService.Core.Application.DTOs;
+using ContratacaoService.Core.Application.Interfaces;
+using ContratacaoService.Core.Domain.Enums;
+using ContratacaoService.Core.Domain.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ContratacaoService.Api.Controllers
 {
@@ -31,8 +33,19 @@ namespace ContratacaoService.Api.Controllers
         {
             try
             {
+                Guid guidProposta;
+                DateTime dataContratacao;
+
+                if (!Guid.TryParse(contratacaoRequest.PropostaId, out guidProposta))
+                    Results.BadRequest("Id da proposta inválido");                
+                if (contratacaoRequest.DataContratacao.HasValue)
+                    dataContratacao = contratacaoRequest.DataContratacao.Value;
+                else
+                    dataContratacao = DateTime.UtcNow;
+
                 var contratarPropostaDto =
-                    new ContratarPropostaDto(contratacaoRequest.PropostaId, contratacaoRequest.DataContratacao);
+                    new ContratarPropostaDto(guidProposta, dataContratacao);
+
                 await _contratarProposta.ExecutarAsync(contratarPropostaDto);                    
                 return Results.Ok();
             }

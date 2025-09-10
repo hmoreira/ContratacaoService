@@ -20,21 +20,12 @@ namespace ContratacaoService.Adapters.Clients
             _httpClient.BaseAddress = new Uri(_propostaApiBaseUrl);
         }        
 
-        public async Task<StatusPropostaEnum?> ConsultarStatusPropostaAsync(string propostaId)
+        public async Task<PropostaDto?> ConsultarPropostaAsync(Guid propostaId)
         {
-            Guid guidProposta;
-            if (!Guid.TryParse(propostaId, out guidProposta))
-                throw new Exception("Id da proposta inválido");
-
-            var response = await _httpClient.GetAsync($"api/proposta/{propostaId}/status"); 
+            var response = await _httpClient.GetAsync($"api/proposta/{propostaId.ToString()}"); 
             response.EnsureSuccessStatusCode(); // Lança exceção se o status não for de sucesso
 
-            var status = await response.Content.ReadFromJsonAsync<StatusPropostaEnum?>(); 
-
-            if (status == null)
-                throw new InvalidOperationException("Não foi possível obter o status da proposta do serviço de Proposta.");            
-
-            return status;
+            return await response.Content.ReadFromJsonAsync<PropostaDto?>(); 
         }
     }
 }

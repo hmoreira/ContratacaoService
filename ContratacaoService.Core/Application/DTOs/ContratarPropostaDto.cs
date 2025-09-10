@@ -2,9 +2,9 @@
 {
     public class ContratarPropostaDto 
     {
-        public string PropostaId { get; private set; }        
+        public Guid PropostaId { get; private set; }        
         public DateTime? DataContratacao { get; private set; }
-        public ContratarPropostaDto(string propostaId, DateTime? dataContratacao)
+        public ContratarPropostaDto(Guid propostaId, DateTime? dataContratacao)
         {
             PropostaId = propostaId;            
             DataContratacao = dataContratacao;
