@@ -1,5 +1,6 @@
-﻿using ContratacaoService.Core.Domain.Enums;
-using ContratacaoService.Core.Domain.ValueObjects;
+﻿using ContratacaoService.Core.Application.DTOs;
+using ContratacaoService.Core.Domain.Enums;
+using ContratacaoService.Core.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,36 @@ namespace ContratacaoService.Core.Domain.Entities
 {
     public class Contrato
     {
-        public Guid Id { get; set; }
-        public Guid PropostaId { get; set; }
-        public DateTime DataContratacao { get; set; }
-        public StatusContratacaoEnum StatusContratacao { get; set; }
-        public ClienteContratacao DadosCliente { get; set; }
+        public Guid Id { get; private set; }
+        public Guid PropostaId { get; private set; }
+        public DateTime DataContratacao { get; private set; }        
 
-        private Contrato() { } // Construtor privado
+        private Contrato() { }
 
         public Contrato(Guid propostaId, DateTime dataContratacao)
-        {
-            Id = Guid.NewGuid();
+        {            
             PropostaId = propostaId;
-            DataContratacao = dataContratacao;
+            DataContratacao = dataContratacao;            
+        }
+
+        public static Contrato Criar(string propostaId, DateTime? dataContratacaoP,
+                                     StatusPropostaEnum? statusProposta)
+        {
+            Guid guidProposta;
+            DateTime dataContratacao;
+
+            if (!Guid.TryParse(propostaId, out guidProposta))
+                throw new DomainException("Id da proposta inválido");
+            
+            if (statusProposta == null || statusProposta != StatusPropostaEnum.Aprovada)
+                throw new DomainException($"A proposta {propostaId} não está aprovada");
+
+            if (!dataContratacaoP.HasValue)
+                dataContratacao = DateTime.UtcNow; //considera data atual
+            else
+                dataContratacao = dataContratacaoP.Value;
+
+            return new Contrato(Guid.NewGuid(), dataContratacao);            
         }
     }
 }

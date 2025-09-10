@@ -19,23 +19,9 @@ namespace ContratacaoService.Adapters.Persistence
         }
 
         public async Task AdicionarAsync(Contrato contrato)
-        {
-            // Se o contrato for novo, adiciona. Se já existe, atualiza.
-            // EF Core rastreia isso automaticamente, mas pode ser explícito:
-            if (contrato.Id == Guid.Empty) // ou um método IsTransient() na entidade
-            {
-                _context.Contratos.Add(contrato);
-            }
-            else
-            {
-                _context.Contratos.Update(contrato);
-            }
+        {            
+            _context.Contratos.Add(contrato);            
             await _context.SaveChangesAsync();
-        }
-
-        public Task<Contrato?> ObterPorIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }        
+        }                
     }
 }

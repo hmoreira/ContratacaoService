@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ContratacaoService.Core.Application.DTOs
+﻿namespace ContratacaoService.Core.Application.DTOs
 {
-    public class ContratarPropostaDto { 
-        public Guid PropostaId { get; set; } 
+    public class ContratarPropostaDto 
+    {
+        public string PropostaId { get; private set; }        
+        public DateTime? DataContratacao { get; private set; }
+        public ContratarPropostaDto(string propostaId, DateTime? dataContratacao)
+        {
+            PropostaId = propostaId;            
+            DataContratacao = dataContratacao;
+        }
     }
 }

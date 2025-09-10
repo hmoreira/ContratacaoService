@@ -1,4 +1,5 @@
 ﻿using ContratacaoService.Core.Application.DTOs;
+using ContratacaoService.Core.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace ContratacaoService.Core.Domain.Interfaces.Services
 {
     public interface IPropostaService
     {
-        Task<StatusPropostaDto?> ConsultarStatusPropostaAsync(Guid propostaId);
+        Task<StatusPropostaEnum?> ConsultarStatusPropostaAsync(string propostaId);
     }
 }

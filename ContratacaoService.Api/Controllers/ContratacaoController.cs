@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using ContratacaoService.Core.Application.Interfaces;
+using ContratacaoService.Api.DTOs;
+using ContratacaoService.Core.Application.DTOs;
 
 namespace ContratacaoService.Api.Controllers
 {
@@ -8,12 +9,15 @@ namespace ContratacaoService.Api.Controllers
     [ApiController]
     public class ContratacaoController : ControllerBase
     {
-        // GET: api/<ContratacaoController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IContratarPropostaUseCase _contratarProposta;
+        private readonly IVerificarStatusPropostaUseCase _verificarStatusProposta;
+        public ContratacaoController(IContratarPropostaUseCase contratarProposta, IVerificarStatusPropostaUseCase verificarStatusProposta)
         {
-            return new string[] { "value1", "value2" };
+            _contratarProposta = contratarProposta;
+            _verificarStatusProposta = verificarStatusProposta;
         }
+
+
 
         // GET api/<ContratacaoController>/5
         [HttpGet("{id}")]
@@ -21,23 +25,21 @@ namespace ContratacaoService.Api.Controllers
         {
             return "value";
         }
-
-        // POST api/<ContratacaoController>
+        
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IResult> Post([FromBody] ContratacaoRequestDto contratacaoRequest)
         {
-        }
-
-        // PUT api/<ContratacaoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ContratacaoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            try
+            {
+                var contratarPropostaDto =
+                    new ContratarPropostaDto(contratacaoRequest.PropostaId, contratacaoRequest.DataContratacao);
+                await _contratarProposta.ExecutarAsync(contratarPropostaDto);                    
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex.Message);
+            }
         }
     }
 }

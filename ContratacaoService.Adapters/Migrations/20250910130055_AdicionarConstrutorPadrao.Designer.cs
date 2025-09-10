@@ -4,6 +4,7 @@ using ContratacaoService.Adapters.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContratacaoService.Adapters.Migrations
 {
     [DbContext(typeof(ContratacaoDbContext))]
-    partial class ContratacaoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250910130055_AdicionarConstrutorPadrao")]
+    partial class AdicionarConstrutorPadrao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,9 @@ namespace ContratacaoService.Adapters.Migrations
 
                     b.Property<Guid>("PropostaId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<short>("StatusContratacao")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 

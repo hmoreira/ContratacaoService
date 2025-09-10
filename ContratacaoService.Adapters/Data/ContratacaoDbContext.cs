@@ -18,9 +18,6 @@ namespace ContratacaoService.Adapters.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configurações adicionais de mapeamento, se necessário
-            modelBuilder.Entity<Contrato>().OwnsOne(c => c.DadosCliente);
-
             base.OnModelCreating(modelBuilder);
         }
     }

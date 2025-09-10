@@ -5,6 +5,7 @@ using ContratacaoService.Core.Application.UseCases;
 using ContratacaoService.Core.Domain.Interfaces.Repositories;
 using ContratacaoService.Core.Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
+using ContratacaoService.Core.Application.Interfaces;
 
 namespace ContratacaoService.Api
 {
@@ -22,22 +23,12 @@ namespace ContratacaoService.Api
 
             builder.Services.AddScoped<IContratoRepository, ContratoRepository>();
             builder.Services.AddHttpClient<IPropostaService, PropostaServiceHttpClient>();
-            builder.Services.AddScoped<ContratarPropostaUseCase>();
-            builder.Services.AddScoped<VerificarStatusPropostaUseCase>();
+            builder.Services.AddScoped<IContratarPropostaUseCase, ContratarPropostaUseCase>();
+            builder.Services.AddScoped<IVerificarStatusPropostaUseCase, VerificarStatusPropostaUseCase>();
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddControllers();   
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            var app = builder.Build();            
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
