@@ -17,7 +17,7 @@ namespace ContratacaoService.Tests.Integration
         public async Task ConsultarPropostaAsync_DeveRetornarProposta_QuandoIdExistente()
         {
             // Arrange
-            var propostaIdExistente = Guid.Parse("5e95eb6b-8b62-4d72-a395-cbe507ddd6ea"); // Substitua por um ID válido no ambiente de teste
+            var propostaIdExistente = Guid.Parse("33f75118-1a37-4e63-a9fa-1b1959d52771"); // Substitua por um ID válido no ambiente de teste
 
             // Act
             var proposta = await _propostaService.ConsultarPropostaAsync(propostaIdExistente);
@@ -50,14 +50,12 @@ namespace ContratacaoService.Tests.Integration
 
         public PropostaServiceIntegrationFixture()
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false)
-                .Build();
+            var basePath = AppContext.BaseDirectory;
 
-            // Output the value to the test output or debug window
-            var baseUrl = configuration["Services:PropostaService:BaseUrl"];
-            Console.WriteLine($"Loaded BaseUrl: {baseUrl}");            
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(basePath)
+                .AddJsonFile("appsettings.json", optional: false)
+                .Build();                      
 
             var services = new ServiceCollection();
             services.AddSingleton<IConfiguration>(configuration);
