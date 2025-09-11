@@ -17,16 +17,7 @@ namespace ContratacaoService.Api.Controllers
         {
             _contratarProposta = contratarProposta;
             _verificarStatusProposta = verificarStatusProposta;
-        }
-
-
-
-        // GET api/<ContratacaoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        }        
         
         [HttpPost]
         public async Task<IResult> Post([FromBody] ContratacaoRequestDto contratacaoRequest)
