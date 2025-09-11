@@ -27,9 +27,9 @@ namespace ContratacaoService.Core.Application.UseCases
                 throw new DomainException($"A proposta {contratarPropostaDto.PropostaId.ToString()} não foi encontrada.");
 
             if (proposta.Status != StatusPropostaEnum.Aprovada)
-                throw new DomainException($"A proposta {proposta.Id.ToString()} não está aprovada e não pode ser contratada.");
+                throw new DomainException($"A proposta {proposta.PropostaId.ToString()} não está aprovada e não pode ser contratada.");
 
-            var contrato = Contrato.Criar(contratarPropostaDto.PropostaId, contratarPropostaDto.DataContratacao,
+            var contrato = Contrato.Criar(proposta.PropostaId, contratarPropostaDto.DataContratacao,
                                           proposta.Status);                        
 
             await _contratoRepository.AdicionarAsync(contrato);

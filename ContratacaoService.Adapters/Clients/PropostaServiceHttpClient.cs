@@ -22,10 +22,20 @@ namespace ContratacaoService.Adapters.Clients
 
         public async Task<PropostaDto?> ConsultarPropostaAsync(Guid propostaId)
         {
-            var response = await _httpClient.GetAsync($"api/proposta/{propostaId.ToString()}"); 
-            response.EnsureSuccessStatusCode(); // Lança exceção se o status não for de sucesso
+            var response = await _httpClient.GetAsync($"api/proposta/{propostaId}"); 
+            
+            response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<PropostaDto?>(); 
+            var jsonContent = await response.Content.ReadAsStringAsync();
+            
+            if (string.IsNullOrWhiteSpace(jsonContent) || jsonContent == "{}")
+                return null;            
+
+            // Se o conteúdo não estiver vazio, deserialize-o para o DTO.
+            var ret = System.Text.Json.JsonSerializer.Deserialize<PropostaDto?>(jsonContent,
+                new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return ret;
         }
     }
 }

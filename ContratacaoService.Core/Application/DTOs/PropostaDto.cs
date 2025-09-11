@@ -4,7 +4,7 @@ namespace ContratacaoService.Core.Application.DTOs
 {
     public class PropostaDto
     {
-        public Guid Id { get; set; }
+        public Guid PropostaId { get; set; }
         public StatusPropostaEnum Status { get; set; }
     }
 }
